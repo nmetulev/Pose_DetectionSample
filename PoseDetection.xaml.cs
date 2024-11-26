@@ -38,7 +38,12 @@ internal sealed partial class PoseDetection : Microsoft.UI.Xaml.Controls.Page
             }
 
             SessionOptions sessionOptions = new();
-            sessionOptions.AppendExecutionProvider_DML(DeviceUtils.GetBestDeviceId());
+
+            Dictionary<string, string> options = new();
+            options.Add("backend_path", "QnnHtp.dll");
+            options.Add("htp_performance_mode", "high_performance");
+            options.Add("htp_graph_finalization_optimization_mode", "3");
+            sessionOptions.AppendExecutionProvider("QNN", options);
 
             _inferenceSession = new InferenceSession(modelPath, sessionOptions);
         });
